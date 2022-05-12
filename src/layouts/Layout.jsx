@@ -6,14 +6,14 @@ import Footer from '../components/Footers/Footer';
 
 const Layout = () => {
 	return (
-		<>
+		<div style={{ height: '100vh' }}>
 			<Sidebar />
-			<main className='main-content position-relative max-height-vh-100 h-100 border-radius-lg'>
+			<main className='main-content h-100 min-height-vh-100 max-height-vh-100 d-flex flex-column'>
 				<Navbar />
 				<Outlet />
 				<Footer />
 			</main>
-		</>
+		</div>
 	);
 };
 

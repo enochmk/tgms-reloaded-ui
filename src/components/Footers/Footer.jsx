@@ -2,7 +2,7 @@ import React from 'react';
 
 function Footer() {
 	return (
-		<footer className='footer col-8 w-100 container-fluid py-4'>
+		<footer className='footer container-fluid py-4'>
 			<div className='row align-items-center justify-content-lg-between'>
 				<hr className='mb-4 border-b-1' />
 				<section className='col-lg-6'>
@@ -10,7 +10,6 @@ function Footer() {
 						Copyright © 2022 AirtelTigo
 					</div>
 				</section>
-
 				<section className='col-lg-6'>
 					<ul className='nav nav-footer justify-content-center justify-content-lg-end'>
 						<li>
