@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // reactstrap components
 import {
@@ -12,17 +12,18 @@ import {
 } from 'reactstrap';
 
 const Sidebar = ({ routes }) => {
+	const location = useLocation();
+
 	const createLinks = (routes) => {
 		return routes.map((prop, key) => {
+			const activeClassName = location.pathname === prop.path ? 'active' : '';
 			return (
-				<Link to={prop.path} key={key}>
-					<NavItem>
-						<NavLink className='active'>
-							<i className={prop.icon} />
-							{prop.name}
-						</NavLink>
-					</NavItem>
-				</Link>
+				<NavItem key={key}>
+					<NavLink tag={Link} to={prop.path} className={activeClassName}>
+						<i className={prop.icon} />
+						{prop.name}
+					</NavLink>
+				</NavItem>
 			);
 		});
 	};

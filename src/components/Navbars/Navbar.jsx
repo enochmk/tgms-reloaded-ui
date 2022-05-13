@@ -1,18 +1,38 @@
 import React from 'react';
+import {
+	DropdownMenu,
+	DropdownItem,
+	Dropdown,
+	Navbar,
+	Nav,
+	Container,
+} from 'reactstrap';
 
-function Navbar() {
+function CustomNavbar(props) {
 	return (
-		<nav
-			className='navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl'
-			navbar-scroll='true'>
-			<div className='container-fluid py-1 px-3'>
-				<h6 className='font-weight-bolder mb-0'>Home</h6>
-				<div className='collapse navbar-collapse'>
-					<ul className='navbar-nav justify-content-end'></ul>
-				</div>
-			</div>
-		</nav>
+		<>
+			<Navbar
+				className='navbar-top fixed-top py-4  navbar-bg-transparent'
+				expand='md'
+				id='navbar-main'>
+				<Container fluid>
+					<p className='h4 mb-0 text-white text-uppercase d-none d-lg-inline-block'>
+						{props.brandText}
+					</p>
+					<Nav className='align-items-center d-none d-md-flex' navbar>
+						<Dropdown nav>
+							<DropdownMenu className='dropdown-menu-arrow' right>
+								<DropdownItem href='#pablo' onClick={(e) => e.preventDefault()}>
+									<i className='ni ni-user-run' />
+									<span>Logout</span>
+								</DropdownItem>
+							</DropdownMenu>
+						</Dropdown>
+					</Nav>
+				</Container>
+			</Navbar>
+		</>
 	);
 }
 
-export default Navbar;
+export default CustomNavbar;
