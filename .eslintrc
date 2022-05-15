@@ -1,0 +1,16 @@
+{
+  "extends": ["react-app", "react-app/jest" /* , "prettier" */],
+  // "plugins": ["prettier"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "func-names": "off",
+    "no-process-exit": "off",
+    "object-shorthand": "off",
+    "class-methods-use-this": "off",
+    "import/prefer-default-export": "off",
+    "no-param-reassign": "off",
+    "prefer-destructuring": "off",
+    "no-useless-concat": "off"
+  }
+}
