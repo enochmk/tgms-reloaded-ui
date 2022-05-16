@@ -40,7 +40,7 @@ function Randomizer() {
     try {
       const config = {
         method: 'get',
-        url: `http://localhost:8000/api/tgms2/randomizer?count=${count}`,
+        url: `http://10.81.9.68:8000/api/tgms2/randomizer?count=${count}`,
       };
 
       const response = await axios(config);
