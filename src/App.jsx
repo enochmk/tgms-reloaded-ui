@@ -4,7 +4,8 @@ import { ToastContainer } from 'react-toastify';
 
 import MainLayout from './layouts/MainLayout';
 import Home from './views/Home';
-import Randomizer from './views/Randomizer';
+import Draw from './views/Draw';
+import Winners from './views/Winners';
 
 function App() {
   return (
@@ -12,10 +13,12 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/randomizer" element={<Randomizer />} />
+          <Route path="/draw" element={<Draw />} />
+          <Route path="/winners" element={<Winners />} />
         </Route>
         <Route path="*" element={<Navigate from="*" to="/" />} />
       </Routes>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}

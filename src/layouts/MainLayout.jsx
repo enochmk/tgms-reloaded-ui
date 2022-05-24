@@ -1,7 +1,6 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import Sidebar from '../components/Sidebars/Sidebar';
 import Navbar from '../components/Navbars/Navbar';
 import Footer from '../components/Footers/Footer';
 import routes from '../routes';
@@ -28,7 +27,6 @@ const Layout = (props) => {
 
   return (
     <div style={{ height: '100%' }}>
-      <Sidebar routes={routes} />
       <main className="main-content h-100" ref={mainContent}>
         <Navbar brandText={getBrandText()} />
         <Outlet />
