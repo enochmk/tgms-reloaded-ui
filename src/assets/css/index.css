@@ -2,3 +2,8 @@ html,
 body {
   height: 100%;
 }
+
+.scroll {
+  max-height: '50px';
+  overflow-y: auto;
+}
