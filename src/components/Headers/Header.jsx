@@ -1,40 +1,43 @@
 import { Container, Row, Col } from 'reactstrap';
 import HeaderCard from './HeaderCard';
-import FileUpload from '../Modals/FileUpload';
 
-const Header = () => {
+const Header = ({ count, isLoading }) => {
+  const { winners, unique, total } = count;
+
   return (
-    <div className="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div className="header bg-gradient-danger pt-6">
       <Container fluid className="header-body">
-        <div className="mt-4 p-5 text-white rounded text-center">
-          <h2 className="lead text-white">Statistics</h2>
+        <div className="mt-4 p-4 text-white rounded text-center">
+          <h2 className="text-white display-4 font-bold">Statistics</h2>
           <Row className="mb-5">
             <Col lg="6" xl="4">
               <HeaderCard
+                isLoading={isLoading}
                 title="Total Dataset"
                 color="danger"
-                value="N/A"
+                value={total}
                 icon="fa-chart-bar"
               />
             </Col>
             <Col lg="6" xl="4">
               <HeaderCard
+                isLoading={isLoading}
                 title="Unique Subscribers"
                 color="warning"
-                value="N/A"
+                value={unique}
                 icon="fa-chart-pie"
               />
             </Col>
             <Col lg="6" xl="4">
               <HeaderCard
+                isLoading={isLoading}
                 title="Winners"
                 color="yellow"
-                value="N/A"
+                value={winners}
                 icon="fa-users"
               />
             </Col>
           </Row>
-          <FileUpload />
         </div>
       </Container>
     </div>

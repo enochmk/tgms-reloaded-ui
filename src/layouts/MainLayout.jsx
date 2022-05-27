@@ -4,6 +4,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbars/Navbar';
 import Footer from '../components/Footers/Footer';
 import routes from '../routes';
+import DrawContext from '../context/DrawContext';
 
 const Layout = (props) => {
   const mainContent = React.useRef(null);
@@ -29,7 +30,9 @@ const Layout = (props) => {
     <div style={{ height: '100%' }}>
       <main className="main-content h-100" ref={mainContent}>
         <Navbar brandText={getBrandText()} />
-        <Outlet />
+        <DrawContext>
+          <Outlet />
+        </DrawContext>
         <Footer />
       </main>
     </div>
