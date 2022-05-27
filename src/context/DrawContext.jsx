@@ -8,7 +8,7 @@ const initialState = {
   },
   data: {
     winners: [],
-    msisdn: [],
+    msisdns: [],
   },
 };
 
