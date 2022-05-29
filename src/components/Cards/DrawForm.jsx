@@ -16,10 +16,12 @@ const DrawForm = (props) => {
 
   useEffect(() => {
     if (isAnimating) {
+      setIsLoading(true);
       startAnimation();
     }
 
     if (!isAnimating) {
+      setIsLoading(false);
       stopAnimation();
     }
 
@@ -67,19 +69,27 @@ const DrawForm = (props) => {
     return response.data;
   };
 
+  const animateWinners = async (array) => {
+    const data = [];
+    for (let index = 0; index < array.length; index++) {
+      setIsAnimating(true);
+
+      data.push(array[index]);
+      await sleep(5000);
+
+      setWinners(data);
+      setIsAnimating(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!numberOfWinnersInput) return;
 
-    setWinners([]);
-    setIsLoading(true);
-    setIsAnimating(true);
-    await sleep(3000);
-
     try {
-      const data = await fetchRandomNumbers();
-      setWinners(data);
+      const randomNumbers = await fetchRandomNumbers();
+      await animateWinners(randomNumbers);
     } catch (error) {
       toast.error(error.message);
       setLuckyNumber('0000000000');
