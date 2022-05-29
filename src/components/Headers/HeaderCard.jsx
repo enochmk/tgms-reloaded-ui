@@ -12,8 +12,8 @@ function HeaderCard({ title, icon, value, color, isLoading }) {
             </CardTitle>
             <span className="h2 font-weight-bold mb-0">
               {isLoading ? (
-                <div class="spinner-border" role="status">
-                  <span class="sr-only">Loading...</span>
+                <div className="spinner-border" role="status">
+                  <span className="sr-only">Loading...</span>
                 </div>
               ) : (
                 value
