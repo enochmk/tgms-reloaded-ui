@@ -34,17 +34,23 @@ function Winners() {
               <CardTitle tag="h1" className="text-muted text-center">
                 Winners
               </CardTitle>
-              <div className="justify-content-start ">
-                <ul
-                  className="list-unstyled card-columns"
-                  style={{ columnCount: 8 }}
-                >
-                  {winners.map((winner, index) => (
-                    <li key={index} className="text-dark">
-                      <h4>0{winner}</h4>
-                    </li>
-                  ))}
-                </ul>
+              <div className="justify-content-start">
+                {winners.length ? (
+                  <ul
+                    className="list-unstyled card-columns"
+                    style={{ columnCount: 8 }}
+                  >
+                    {winners.map((winner, index) => (
+                      <li key={index} className="text-dark">
+                        <h4>0{winner}</h4>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <h4 className="text-muted text-center display-2">
+                    Nothing to show.
+                  </h4>
+                )}
               </div>
             </CardBody>
           </Card>
