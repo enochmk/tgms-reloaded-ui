@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
 import { Card, CardBody, CardTitle } from 'reactstrap';
 
-const TIMEOUT_DURATION = 5000;
+const TIMEOUT_DURATION = 3500;
 
 const DrawWinners = ({ winners, isLoading }) => {
   const [width, setWidth] = useState(0);
