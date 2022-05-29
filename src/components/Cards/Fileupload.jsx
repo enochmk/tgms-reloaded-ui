@@ -13,7 +13,7 @@ import {
   Alert,
 } from 'reactstrap';
 
-function Fileupload({ updateStatistics, setIsLoading }) {
+function Fileupload({ setStatistics, setIsLoading }) {
   const ref = useRef();
   const [message, setMessage] = useState(null);
   const [isError, setIsError] = useState(false);
@@ -48,7 +48,7 @@ function Fileupload({ updateStatistics, setIsLoading }) {
       };
 
       const response = await axios(config);
-      updateStatistics(response.data);
+      setStatistics(response.data);
       setMessage('File uploaded successfully!');
       toast.success('File uploaded successfully!');
       setIsError(false);

@@ -11,7 +11,7 @@ function Home() {
       <Header count={drawContext.count} isLoading={drawContext.isLoading} />
       <Fileupload
         setIsLoading={drawContext.setIsLoading}
-        updateStatistics={drawContext.updateStatistics}
+        setStatistics={drawContext.setStatistics}
       />
     </>
   );
