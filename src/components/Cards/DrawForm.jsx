@@ -1,56 +1,86 @@
-import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useState, useEffect, useContext } from 'react';
 import { Button, Card, CardBody, CardTitle } from 'reactstrap';
+import { toast } from 'react-toastify';
+import { DrawContext } from '../../context/DrawContext';
 
-const MSISDNs = [
-  568740323, 266747918, 263176821, 266122404, 263764486, 579022559, 266416416,
-  563565304, 573270842, 579530469, 263409279, 569088470,
-];
+const SPEED = 100;
 
-const SPEED = 50;
-
-const DrawForm = ({ setWinners }) => {
-  const [numberOfWinners, setNumberOfWinners] = useState(0);
+const DrawForm = (props) => {
+  const { setWinners, isLoading, setIsLoading, winners } = props;
+  const drawContext = useContext(DrawContext);
+  const [numberOfWinnersInput, setNumberOfWinners] = useState(1);
   const [timer, setTimer] = useState(null);
   const [luckyNumber, setLuckyNumber] = useState('0000000000');
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [listNumbers, setListNumber] = useState(MSISDNs);
-
-  const handleChange = (e) => {
-    setNumberOfWinners(e.target.value);
-  };
-
-  const generateRandomNumberFromArray = (list) => {
-    const index = Math.floor(Math.random() * list.length);
-    const number = list[index];
-    return number;
-  };
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    if (isSpinning) {
-      animateNumbers();
+    if (isAnimating) {
+      startAnimation();
     }
 
-    return () => clearInterval(timer);
-  }, [isSpinning]);
+    if (!isAnimating) {
+      stopAnimation();
+    }
 
-  const animateNumbers = async () => {
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isAnimating]);
+
+  useEffect(() => {
+    if (winners.length) {
+      const lastItem = winners[winners.length - 1];
+      setLuckyNumber(`0${lastItem}`);
+    }
+  }, [winners]);
+
+  const handleChange = (e) => setNumberOfWinners(e.target.value);
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  const startAnimation = async () => {
+    // const msisdnArray = drawContext.data.msisdns;
+    const msisdnArray = ['560043149', '263435178', '570025938'];
+
+    if (msisdnArray.length === 0) return;
+
     const interval = setInterval(() => {
-      const number = generateRandomNumberFromArray(listNumbers);
+      const index = Math.floor(Math.random() * msisdnArray.length);
+      const number = msisdnArray[index];
       setLuckyNumber(`0${number}`);
     }, SPEED);
 
     setTimer(interval);
   };
 
-  const stopAnimation = () => {
-    setIsSpinning(false);
-    clearInterval(timer);
+  const stopAnimation = () => clearInterval(timer);
+
+  const fetchRandomNumbers = async () => {
+    const response = await axios.get(
+      `http://localhost:8000/api/tgms2/randomizer?count=${numberOfWinnersInput}`,
+    );
+
+    return response.data;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setWinners([]);
-    setIsSpinning(true);
+
+    if (!numberOfWinnersInput) return;
+
+    setIsAnimating(true);
+    await sleep(3000);
+
+    try {
+      const data = await fetchRandomNumbers();
+      setWinners(data);
+    } catch (error) {
+      toast.error(error.message);
+      setLuckyNumber('0000000000');
+    } finally {
+      setIsAnimating(false);
+    }
   };
 
   return (
@@ -72,13 +102,14 @@ const DrawForm = ({ setWinners }) => {
                 type="number"
                 className="form-control w-25"
                 onChange={handleChange}
-                value={numberOfWinners}
-                disabled={isSpinning}
+                value={numberOfWinnersInput}
+                disabled={isLoading}
+                required
               />
             </div>
           </div>
           <Button className="w-75 btn-success mt-4">Generate</Button>
-          <Button className="w-75  mt-4" type="button" onClick={stopAnimation}>
+          <Button className="w-75 mt-4" type="button" onClick={stopAnimation}>
             Stop Animation
           </Button>
         </CardBody>
