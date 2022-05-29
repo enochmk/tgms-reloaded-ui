@@ -19,9 +19,10 @@ function DrawProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const value = {
-    ...statistics,
-    updateStatistics: setStatistics,
     isLoading,
+    data: statistics.data,
+    count: statistics.count,
+    setStatistics,
     setIsLoading,
   };
 
