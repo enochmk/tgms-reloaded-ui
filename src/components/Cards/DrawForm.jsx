@@ -15,6 +15,10 @@ const DrawForm = (props) => {
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
+    fetchStatistics();
+  }, []);
+
+  useEffect(() => {
     if (isAnimating) {
       setIsLoading(true);
       startAnimation();
@@ -30,20 +34,12 @@ const DrawForm = (props) => {
     };
   }, [isAnimating]);
 
-  useEffect(() => {
-    if (winners.length) {
-      const lastItem = winners[winners.length - 1];
-      setLuckyNumber(`0${lastItem}`);
-    }
-  }, [winners]);
-
   const handleChange = (e) => setNumberOfWinners(e.target.value);
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   const startAnimation = async () => {
-    // const msisdnArray = drawContext.data.msisdns;
-    const msisdnArray = ['560043149', '263435178', '570025938'];
+    const msisdnArray = drawContext.data.msisdns;
 
     if (msisdnArray.length === 0) return;
 
@@ -61,6 +57,22 @@ const DrawForm = (props) => {
     clearInterval(timer);
   };
 
+  const fetchStatistics = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/tgms2/statistics`,
+      );
+
+      drawContext.setStatistics(response.data);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const fetchRandomNumbers = async () => {
     const response = await axios.get(
       `http://localhost:8000/api/tgms2/randomizer?count=${numberOfWinnersInput}`,
@@ -71,13 +83,15 @@ const DrawForm = (props) => {
 
   const animateWinners = async (array) => {
     const data = [];
+
     for (let index = 0; index < array.length; index++) {
       setIsAnimating(true);
 
       data.push(array[index]);
-      await sleep(5000);
+      await sleep(1200);
 
       setWinners(data);
+      setLuckyNumber(`0${array[index]}`);
       setIsAnimating(false);
     }
   };
@@ -87,8 +101,11 @@ const DrawForm = (props) => {
 
     if (!numberOfWinnersInput) return;
 
+    setIsAnimating(true);
+
     try {
       const randomNumbers = await fetchRandomNumbers();
+      await fetchStatistics();
       await animateWinners(randomNumbers);
     } catch (error) {
       toast.error(error.message);
@@ -125,9 +142,8 @@ const DrawForm = (props) => {
               />
             </div>
           </div>
-          <Button className="w-75 btn-success mt-4">Generate</Button>
-          <Button className="w-75 mt-4" type="button" onClick={stopAnimation}>
-            Stop Animation
+          <Button className="w-75 btn-success mt-4" disabled={isLoading}>
+            Generate
           </Button>
         </CardBody>
       </Card>
