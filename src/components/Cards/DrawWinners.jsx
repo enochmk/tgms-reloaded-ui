@@ -1,12 +1,10 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
 import { Card, CardBody, CardTitle } from 'reactstrap';
-import { DrawContext } from '../../context/DrawContext';
 
 const TIMEOUT_DURATION = 5000;
 
-const DrawWinners = ({ winners }) => {
-  const { isLoading } = useContext(DrawContext);
+const DrawWinners = ({ winners, isLoading }) => {
   const [width, setWidth] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
   const [height, setHeight] = useState(0);
@@ -37,7 +35,9 @@ const DrawWinners = ({ winners }) => {
           </CardTitle>
           <div className="justify-content-start ">
             {isLoading ? (
-              <div className="spinner-border text-primary" role="status"></div>
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
             ) : (
               <ul
                 className="list-unstyled card-columns"

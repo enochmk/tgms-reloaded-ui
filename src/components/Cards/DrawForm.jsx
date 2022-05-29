@@ -7,7 +7,7 @@ import { DrawContext } from '../../context/DrawContext';
 const SPEED = 100;
 
 const DrawForm = (props) => {
-  const { setWinners, isLoading, setIsLoading, winners } = props;
+  const { setWinners, winners, setIsLoading, isLoading } = props;
   const drawContext = useContext(DrawContext);
   const [numberOfWinnersInput, setNumberOfWinners] = useState(1);
   const [timer, setTimer] = useState(null);
@@ -54,7 +54,10 @@ const DrawForm = (props) => {
     setTimer(interval);
   };
 
-  const stopAnimation = () => clearInterval(timer);
+  const stopAnimation = () => {
+    setTimer(null);
+    clearInterval(timer);
+  };
 
   const fetchRandomNumbers = async () => {
     const response = await axios.get(
@@ -69,6 +72,8 @@ const DrawForm = (props) => {
 
     if (!numberOfWinnersInput) return;
 
+    setWinners([]);
+    setIsLoading(true);
     setIsAnimating(true);
     await sleep(3000);
 
@@ -78,7 +83,9 @@ const DrawForm = (props) => {
     } catch (error) {
       toast.error(error.message);
       setLuckyNumber('0000000000');
+      setWinners([]);
     } finally {
+      setIsLoading(false);
       setIsAnimating(false);
     }
   };
