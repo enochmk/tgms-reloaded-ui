@@ -41,7 +41,7 @@ const DrawWinners = ({ winners, isLoading }) => {
             ) : (
               <ul
                 className="list-unstyled card-columns"
-                style={{ columnCount: 6 }}
+                style={{ columnCount: 5 }}
               >
                 {winners.map((winner, index) => (
                   <li key={index} className="text-dark">

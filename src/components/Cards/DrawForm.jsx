@@ -1,13 +1,14 @@
-import axios from 'axios';
+import fetchRandomWinners from '../../services/fetchRandomWinners';
+import fetchStatistics from '../../services/fetchStatistics';
 import { useState, useEffect, useContext } from 'react';
 import { Button, Card, CardBody, CardTitle } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { DrawContext } from '../../context/DrawContext';
 
-const SPEED = 100;
+const SPEED = 1000;
 
 const DrawForm = (props) => {
-  const { setWinners, winners, setIsLoading, isLoading } = props;
+  const { setWinners, setIsLoading, isLoading } = props;
   const drawContext = useContext(DrawContext);
   const [numberOfWinnersInput, setNumberOfWinners] = useState(1);
   const [timer, setTimer] = useState(null);
@@ -40,12 +41,17 @@ const DrawForm = (props) => {
 
   const startAnimation = async () => {
     const msisdnArray = drawContext.data.msisdns;
+    const winnersArray = drawContext.data.winners;
 
-    if (msisdnArray.length === 0) return;
+    const eligibleMsisdns = msisdnArray.filter(
+      (msisdn) => !winnersArray.includes(msisdn),
+    );
+
+    if (eligibleMsisdns.length === 0) return;
 
     const interval = setInterval(() => {
-      const index = Math.floor(Math.random() * msisdnArray.length);
-      const number = msisdnArray[index];
+      const index = Math.floor(Math.random() * eligibleMsisdns.length);
+      const number = eligibleMsisdns[index];
       setLuckyNumber(`0${number}`);
     }, SPEED);
 
@@ -57,42 +63,28 @@ const DrawForm = (props) => {
     clearInterval(timer);
   };
 
-  const fetchStatistics = async () => {
-    setIsLoading(true);
+  const animateWinners = async (array) => {
+    let waitTimer = 10_000;
+    const lastItem = array[array.length - 1];
 
+    if (array.length > 30) {
+      waitTimer = (array.length / 30) * 1000;
+    }
+
+    setIsAnimating(true);
+    await sleep(waitTimer);
+
+    setWinners(array);
+    setLuckyNumber(`0${lastItem}`);
+    setIsAnimating(false);
+  };
+
+  const updateStatistics = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/tgms2/statistics`,
-      );
-
-      drawContext.setStatistics(response.data);
+      const data = await fetchStatistics();
+      drawContext.setStatistics(data);
     } catch (error) {
       toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchRandomNumbers = async () => {
-    const response = await axios.get(
-      `http://localhost:8000/api/tgms2/randomizer?count=${numberOfWinnersInput}`,
-    );
-
-    return response.data;
-  };
-
-  const animateWinners = async (array) => {
-    const data = [];
-
-    for (let index = 0; index < array.length; index++) {
-      setIsAnimating(true);
-
-      data.push(array[index]);
-      await sleep(1200);
-
-      setWinners(data);
-      setLuckyNumber(`0${array[index]}`);
-      setIsAnimating(false);
     }
   };
 
@@ -104,11 +96,16 @@ const DrawForm = (props) => {
     setIsAnimating(true);
 
     try {
-      const randomNumbers = await fetchRandomNumbers();
-      await fetchStatistics();
+      const randomNumbers = await fetchRandomWinners(numberOfWinnersInput);
       await animateWinners(randomNumbers);
+      await updateStatistics();
     } catch (error) {
-      toast.error(error.message);
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error.message);
+      }
+
       setLuckyNumber('0000000000');
       setWinners([]);
     } finally {
