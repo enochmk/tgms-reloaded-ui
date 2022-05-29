@@ -28,23 +28,20 @@ const DrawWinners = ({ winners, isLoading }) => {
   return (
     <div ref={ref}>
       {celebrate && <Confetti height={height} width={width} />}
-      <Card className="scroll">
+      <Card>
         <CardBody>
           <CardTitle tag="h2" className="text-muted">
             Winners
           </CardTitle>
-          <div className="justify-content-start ">
+          <div className="d-flex justify-content-center">
             {isLoading ? (
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
             ) : (
-              <ul
-                className="list-unstyled card-columns"
-                style={{ columnCount: 5 }}
-              >
+              <ul className="list-unstyled" style={{ columnCount: 5 }}>
                 {winners.map((winner, index) => (
-                  <li key={index} className="text-dark">
+                  <li key={index} className="text-dark text-center mr-4">
                     0{winner}
                   </li>
                 ))}

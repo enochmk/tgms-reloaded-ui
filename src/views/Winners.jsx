@@ -3,7 +3,6 @@ import { Card, CardBody, CardTitle, Container } from 'reactstrap';
 import { DrawContext } from '../context/DrawContext';
 import fetchStatistics from '../services/fetchStatistics';
 import { toast } from 'react-toastify';
-import second from 'axios';
 
 function Winners() {
   const drawContext = useContext(DrawContext);

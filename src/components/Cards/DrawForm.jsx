@@ -4,8 +4,9 @@ import { useState, useEffect, useContext } from 'react';
 import { Button, Card, CardBody, CardTitle } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { DrawContext } from '../../context/DrawContext';
+import resetWinners from '../../services/resetWinners';
 
-const SPEED = 1000;
+const SPEED = 100;
 
 const DrawForm = (props) => {
   const { setWinners, setIsLoading, isLoading } = props;
@@ -114,6 +115,20 @@ const DrawForm = (props) => {
     }
   };
 
+  const handleReset = async (e) => {
+    try {
+      await resetWinners();
+      await updateStatistics();
+
+      setLuckyNumber('0000000000');
+      stopAnimation();
+      setNumberOfWinners(1);
+      setWinners([]);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Card>
@@ -139,8 +154,19 @@ const DrawForm = (props) => {
               />
             </div>
           </div>
-          <Button className="w-75 btn-success mt-4" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-75 btn-success mt-4"
+            disabled={isLoading}
+          >
             Generate
+          </Button>
+          <Button
+            type="button"
+            className="w-75 btn-secondary mt-4"
+            onClick={handleReset}
+          >
+            Reset Winners
           </Button>
         </CardBody>
       </Card>
