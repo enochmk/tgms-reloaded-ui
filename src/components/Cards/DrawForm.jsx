@@ -1,15 +1,15 @@
-import fetchRandomWinners from '../../services/fetchRandomWinners';
-import fetchStatistics from '../../services/fetchStatistics';
 import { useState, useEffect, useContext } from 'react';
 import { Button, Card, CardBody, CardTitle } from 'reactstrap';
 import { toast } from 'react-toastify';
+import fetchRandomWinners from '../../services/generateRandomWinners';
+import fetchStatistics from '../../services/fetchStatistics';
 import { DrawContext } from '../../context/DrawContext';
 import resetWinners from '../../services/resetWinners';
 
 const SPEED = 100;
 
 const DrawForm = (props) => {
-  const { setWinners, setIsLoading, isLoading } = props;
+  const { setWinners, setIsLoading, winners, isLoading } = props;
   const drawContext = useContext(DrawContext);
   const [numberOfWinnersInput, setNumberOfWinners] = useState(1);
   const [timer, setTimer] = useState(null);
@@ -65,18 +65,21 @@ const DrawForm = (props) => {
   };
 
   const animateWinners = async (array) => {
-    let waitTimer = 10_000;
+    let waitTimer = 3_500;
     const lastItem = array[array.length - 1];
 
     if (array.length > 30) {
-      waitTimer = (array.length / 30) * 1000;
+      waitTimer = (array.length / 30) * 1_000;
     }
 
     setIsAnimating(true);
     await sleep(waitTimer);
 
-    setWinners(array);
-    setLuckyNumber(`0${lastItem}`);
+    // if (winners.length) {
+    // }
+
+    // setWinners([...winners, ...array]);
+    setLuckyNumber(`0${lastItem.MSISDN}`);
     setIsAnimating(false);
   };
 
@@ -144,14 +147,22 @@ const DrawForm = (props) => {
               <label className="text-muted mr-2 align-self-center">
                 Enter number of winners:
               </label>
-              <input
-                type="number"
+              <br />
+              <select
                 className="form-control w-25"
                 onChange={handleChange}
-                value={numberOfWinnersInput}
                 disabled={isLoading}
                 required
-              />
+              >
+                <option></option>
+                <option value="1">First Draw</option>
+                <option value="2">Second Draw</option>
+                <option value="3">Third Draw</option>
+                <option value="4">fourth Draw</option>
+                <option value="5">Fiveth Draw</option>
+                <option value="6">Sixth Draw</option>
+                <option value="7">Seventh Draw</option>
+              </select>
             </div>
           </div>
           <Button
