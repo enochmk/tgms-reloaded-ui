@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardBody, CardTitle, Container } from 'reactstrap';
 import { toast } from 'react-toastify';
 import fetchWinners from '../services/fetchWinners';
-import DrawWinners from '../components/Cards/DrawWinners';
+import DrawCard from '../components/Cards/DrawCard';
 
 function Winners() {
   const [winners, setWinners] = useState({
@@ -38,7 +38,15 @@ function Winners() {
               <CardTitle tag="h1" className="text-muted text-center">
                 Winners
               </CardTitle>
-              <DrawWinners winners={winners} />
+              <div className="row flex-nowrap">
+                <DrawCard title="1st" winners={winners.firstRound} />
+                <DrawCard title="2nd" winners={winners.secondRound} />
+                <DrawCard title="3rd" winners={winners.thirdRound} />
+                <DrawCard title="4th-13th" winners={winners.fourthRound} />
+                <DrawCard title="14th-33rd" winners={winners.fifthRound} />
+                <DrawCard title="34th-93rd" winners={winners.sixthRound} />
+                <DrawCard title="94th-363rd" winners={winners.seventhRound} />
+              </div>
             </CardBody>
           </Card>
         </div>
