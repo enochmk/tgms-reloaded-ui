@@ -30,27 +30,23 @@ function Winners() {
   }, []);
 
   return (
-    <Container fluid className="mt-5 pt-5">
-      <div className="row justify-content-center pt-5">
-        <div className="col-12">
-          <Card className="scroll">
-            <CardBody>
-              <CardTitle tag="h1" className="text-muted text-center">
-                Winners
-              </CardTitle>
-              <div className="row flex-nowrap">
-                <DrawCard title="1st" winners={winners.firstRound} />
-                <DrawCard title="2nd" winners={winners.secondRound} />
-                <DrawCard title="3rd" winners={winners.thirdRound} />
-                <DrawCard title="4th-13th" winners={winners.fourthRound} />
-                <DrawCard title="14th-33rd" winners={winners.fifthRound} />
-                <DrawCard title="34th-93rd" winners={winners.sixthRound} />
-                <DrawCard title="94th-363rd" winners={winners.seventhRound} />
-              </div>
-            </CardBody>
-          </Card>
-        </div>
-      </div>
+    <Container fluid className="mt-5 py-6 px-2 h-100 d-flex flex-column">
+      <Card>
+        <CardBody>
+          <CardTitle tag="h1" className="text-muted text-center">
+            Winners
+          </CardTitle>
+          <div className="row flex-nowrap h-100">
+            <DrawCard title="1st" winners={winners.firstRound} />
+            <DrawCard title="2nd" winners={winners.secondRound} />
+            <DrawCard title="3rd" winners={winners.thirdRound} />
+            <DrawCard title="4th-13th" winners={winners.fourthRound} />
+            <DrawCard title="14th-33rd" winners={winners.fifthRound} />
+            <DrawCard title="34th-93rd" winners={winners.sixthRound} />
+            <DrawCard title="94th-363rd" winners={winners.seventhRound} />
+          </div>
+        </CardBody>
+      </Card>
     </Container>
   );
 }
