@@ -1,55 +1,56 @@
 import { useEffect, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
-import DrawCard from './DrawCard';
 
 const TIMEOUT_DURATION = 3500;
 
-const DrawWinners = ({ winners }) => {
+const DrawWinners = ({ drawWinners, isLoading }) => {
   const [width, setWidth] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
   const [height, setHeight] = useState(0);
   const ref = useRef(null);
 
+  // get the width and height of the component
   useEffect(() => {
     setWidth(ref.current.clientWidth);
     setHeight(ref.current.clientHeight);
   }, []);
 
+  // celebrate when drawWinners change
   useEffect(() => {
-    if (winners > 0) {
+    if (drawWinners.length) {
       setCelebrate(true);
 
       setTimeout(() => {
         setCelebrate(false);
       }, TIMEOUT_DURATION);
     }
-  }, [winners]);
+  }, [drawWinners]);
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className="h-100">
       {celebrate && <Confetti height={height} width={width} />}
-      <div className="row flex-nowrap">
-        {winners.firstRound?.length ? (
-          <DrawCard title="1st" winners={winners.firstRound} />
-        ) : null}
-        {winners.secondRound?.length ? (
-          <DrawCard title="2nd" winners={winners.secondRound} />
-        ) : null}
-        {winners.thirdRound?.length ? (
-          <DrawCard title="3rd" winners={winners.thirdRound} />
-        ) : null}
-        {winners.fourthRound?.length ? (
-          <DrawCard title="4th-13th" winners={winners.fourthRound} />
-        ) : null}
-        {winners.fifthRound?.length ? (
-          <DrawCard title="14th-33rd" winners={winners.fifthRound} />
-        ) : null}
-        {winners.sixthRound?.length ? (
-          <DrawCard title="34th-93rd" winners={winners.sixthRound} />
-        ) : null}
-        {winners.seventhRound?.length ? (
-          <DrawCard title="94th-363rd" winners={winners.seventhRound} />
-        ) : null}
+      <div className="card h-100  mr-1">
+        <div className="card-header text-center display-4 font-weight-bold">
+          Draw Result
+        </div>
+        <div className="card-body text-center d-flex-column flex-grow-1">
+          {isLoading ? (
+            <span className="spinner-border spinner-border-lg text-success"></span>
+          ) : (
+            <div className="row justify-content-center align-content-center h-100">
+              {drawWinners.map((winner, index) => (
+                <div className="card col-md-2 m-1">
+                  <h4 key={index} className="font-italic font-weight-500">
+                    <span class="badge bg-info rounded-pill text-white mr-2">
+                      {winner.POSITION}
+                    </span>
+                    0{winner.MSISDN}
+                  </h4>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

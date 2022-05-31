@@ -9,12 +9,12 @@ import resetWinners from '../../services/resetWinners';
 const SPEED = 100;
 
 const DrawForm = (props) => {
-  const { setWinners, setIsLoading, winners, isLoading } = props;
-  const drawContext = useContext(DrawContext);
+  const { setDrawWinners, setIsLoading, isLoading } = props;
   const [numberOfWinnersInput, setNumberOfWinners] = useState(1);
   const [timer, setTimer] = useState(null);
   const [luckyNumber, setLuckyNumber] = useState('0000000000');
   const [isAnimating, setIsAnimating] = useState(false);
+  const drawContext = useContext(DrawContext);
 
   useEffect(() => {
     fetchStatistics();
@@ -64,21 +64,18 @@ const DrawForm = (props) => {
     clearInterval(timer);
   };
 
-  const animateWinners = async (array) => {
+  const animateWinners = async (drawResultArray) => {
     let waitTimer = 3_500;
-    const lastItem = array[array.length - 1];
+    const lastItem = drawResultArray[drawResultArray.length - 1];
 
-    if (array.length > 30) {
-      waitTimer = (array.length / 30) * 1_000;
+    if (drawResultArray.length > 30) {
+      waitTimer = (drawResultArray.length / 30) * 1_000;
     }
 
     setIsAnimating(true);
     await sleep(waitTimer);
 
-    // if (winners.length) {
-    // }
-
-    // setWinners([...winners, ...array]);
+    setDrawWinners(drawResultArray);
     setLuckyNumber(`0${lastItem.MSISDN}`);
     setIsAnimating(false);
   };
@@ -98,6 +95,7 @@ const DrawForm = (props) => {
     if (!numberOfWinnersInput) return;
 
     setIsAnimating(true);
+    setDrawWinners([]);
 
     try {
       const randomNumbers = await fetchRandomWinners(numberOfWinnersInput);
@@ -111,7 +109,7 @@ const DrawForm = (props) => {
       }
 
       setLuckyNumber('0000000000');
-      setWinners([]);
+      setDrawWinners([]);
     } finally {
       setIsLoading(false);
       setIsAnimating(false);
@@ -126,7 +124,7 @@ const DrawForm = (props) => {
       setLuckyNumber('0000000000');
       stopAnimation();
       setNumberOfWinners(1);
-      setWinners([]);
+      setDrawWinners([]);
     } catch (error) {
       toast.error(error.message);
     }
@@ -143,13 +141,14 @@ const DrawForm = (props) => {
             <h4 className="display-1">{luckyNumber}</h4>
           </section>
           <div className="form-group my-2">
-            <div className="d-flex flex-row justify-content-center">
-              <label className="text-muted mr-2 align-self-center">
+            <div className="row">
+              <label className="w-100 text-muted text-center mr-2 align-self-center">
                 Enter number of winners:
               </label>
-              <br />
+            </div>
+            <div className="row container ">
               <select
-                className="form-control w-25"
+                className="form-control"
                 onChange={handleChange}
                 disabled={isLoading}
                 required
@@ -167,14 +166,14 @@ const DrawForm = (props) => {
           </div>
           <Button
             type="submit"
-            className="w-75 btn-success mt-4"
+            className="w-100 btn-success mt-4"
             disabled={isLoading}
           >
             Generate
           </Button>
           <Button
             type="button"
-            className="w-75 btn-secondary mt-4"
+            className="w-100 btn-secondary mt-4"
             onClick={handleReset}
           >
             Reset Winners
