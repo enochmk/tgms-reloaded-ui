@@ -1,23 +1,36 @@
+import _ from 'lodash';
 import { useState, useEffect, useContext } from 'react';
 import { Button, Card, CardBody, CardTitle } from 'reactstrap';
 import { toast } from 'react-toastify';
+
 import fetchRandomWinners from '../../services/generateRandomWinners';
 import fetchStatistics from '../../services/fetchStatistics';
 import { DrawContext } from '../../contexts/DrawContext';
 import resetWinners from '../../services/resetWinners';
 
 const SPEED = 100;
+const selectOptions = [
+  { name: 'First Draw', value: '1', disabled: false },
+  { name: 'Second Draw', value: '2', disabled: false },
+  { name: 'Third Draw', value: '3', disabled: false },
+  { name: 'Fourth Draw', value: '4', disabled: false },
+  { name: 'Fiveth Draw', value: '5', disabled: false },
+  { name: 'Sixth Draw', value: '6', disabled: false },
+  { name: 'Seventh Draw', value: '7', disabled: false },
+];
 
 const DrawForm = (props) => {
-  const { setDrawWinners, setIsLoading, isLoading } = props;
-  const [numberOfWinnersInput, setNumberOfWinners] = useState(1);
+  const { setDrawWinners, setIsLoading, drawWinners, isLoading } = props;
+  const [numberOfWinnersInput, setNumberOfWinners] = useState('');
   const [timer, setTimer] = useState(null);
-  const [luckyNumber, setLuckyNumber] = useState('0000000000');
+  const [spinningNumber, setSpinningNumber] = useState('0000000000');
+  const [number, setNumber] = useState('0000000000');
   const [isAnimating, setIsAnimating] = useState(false);
   const drawContext = useContext(DrawContext);
+  const [selectDraws, setSelectDraws] = useState(selectOptions);
 
   useEffect(() => {
-    fetchStatistics();
+    handleFetchStatistics();
   }, []);
 
   useEffect(() => {
@@ -36,6 +49,23 @@ const DrawForm = (props) => {
     };
   }, [isAnimating]);
 
+  const handleFetchStatistics = async () => {
+    setIsLoading(true);
+
+    try {
+      const data = await fetchStatistics();
+      drawContext.setStatistics(data);
+    } catch (error) {
+      if (error.response) {
+        return toast.error(error.response.data.message);
+      }
+
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleChange = (e) => setNumberOfWinners(e.target.value);
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -44,6 +74,7 @@ const DrawForm = (props) => {
     const msisdnArray = drawContext.data.msisdns;
     const winnersArray = drawContext.data.winners;
 
+    // remove winners from msisdn array
     const eligibleMsisdns = msisdnArray.filter(
       (msisdn) => !winnersArray.includes(msisdn),
     );
@@ -52,8 +83,9 @@ const DrawForm = (props) => {
 
     const interval = setInterval(() => {
       const index = Math.floor(Math.random() * eligibleMsisdns.length);
-      const number = eligibleMsisdns[index];
-      setLuckyNumber(`0${number}`);
+      const randomNumber = eligibleMsisdns[index];
+      setSpinningNumber(`0${randomNumber}`);
+      console.log(randomNumber);
     }, SPEED);
 
     setTimer(interval);
@@ -66,18 +98,19 @@ const DrawForm = (props) => {
 
   const animateWinners = async (drawResultArray) => {
     let waitTimer = 3_500;
-    const lastItem = drawResultArray[drawResultArray.length - 1];
 
     if (drawResultArray.length > 30) {
       waitTimer = (drawResultArray.length / 30) * 1_000;
     }
 
-    setIsAnimating(true);
     await sleep(waitTimer);
 
-    setDrawWinners(drawResultArray);
-    setLuckyNumber(`0${lastItem.MSISDN}`);
-    setIsAnimating(false);
+    const lastItem = drawResultArray[drawResultArray.length - 1];
+    const arrayCopy = [...drawWinners, ...drawResultArray];
+    const orderedData = _.sortBy(arrayCopy, 'POSITION');
+
+    setDrawWinners(orderedData);
+    setSpinningNumber(`0${lastItem.MSISDN}`);
   };
 
   const updateStatistics = async () => {
@@ -89,28 +122,44 @@ const DrawForm = (props) => {
     }
   };
 
+  const disableSelectOption = (option) => {
+    const newSelectDraws = selectDraws.map((draw) => {
+      if (draw.value === option) {
+        return { ...draw, disabled: true };
+      }
+      return draw;
+    });
+
+    setSelectDraws(newSelectDraws);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!numberOfWinnersInput) return;
 
     setIsAnimating(true);
-    setDrawWinners([]);
+    // setDrawWinners([]);
+    setNumber('0000000000');
 
     try {
       const randomNumbers = await fetchRandomWinners(numberOfWinnersInput);
+      const lastItem = randomNumbers[randomNumbers.length - 1];
       await animateWinners(randomNumbers);
+      setNumber(`0${lastItem.MSISDN}`);
       await updateStatistics();
+      disableSelectOption(numberOfWinnersInput);
     } catch (error) {
+      setSpinningNumber('0000000000');
+      // setDrawWinners([]);
+
       if (error.response) {
         toast.error(error.response.data.message);
       } else {
         toast.error(error.message);
       }
-
-      setLuckyNumber('0000000000');
-      setDrawWinners([]);
     } finally {
+      setNumberOfWinners('');
       setIsLoading(false);
       setIsAnimating(false);
     }
@@ -121,10 +170,12 @@ const DrawForm = (props) => {
       await resetWinners();
       await updateStatistics();
 
-      setLuckyNumber('0000000000');
+      setSpinningNumber('0000000000');
+      setNumber('0000000000');
+
+      setSelectDraws(selectOptions);
       stopAnimation();
-      setNumberOfWinners(1);
-      setDrawWinners([]);
+      // setDrawWinners([]);
     } catch (error) {
       toast.error(error.message);
     }
@@ -138,7 +189,9 @@ const DrawForm = (props) => {
             Weekly Winners Draw
           </CardTitle>
           <section className="my-5">
-            <h4 className="display-1">{luckyNumber}</h4>
+            <h4 className="display-1">
+              {isAnimating ? spinningNumber : number}
+            </h4>
           </section>
           <div className="form-group my-2">
             <div className="row">
@@ -152,15 +205,23 @@ const DrawForm = (props) => {
                 onChange={handleChange}
                 disabled={isLoading}
                 required
+                value={numberOfWinnersInput}
               >
                 <option></option>
-                <option value="1">First Draw</option>
-                <option value="2">Second Draw</option>
-                <option value="3">Third Draw</option>
-                <option value="4">fourth Draw</option>
-                <option value="5">Fiveth Draw</option>
-                <option value="6">Sixth Draw</option>
-                <option value="7">Seventh Draw</option>
+                {selectDraws.map((draw, index) => (
+                  <option
+                    key={index}
+                    value={draw.value}
+                    disabled={draw.disabled}
+                    className={
+                      draw.disabled
+                        ? 'disabled text-muted'
+                        : 'text-dark foot-weight-500'
+                    }
+                  >
+                    {draw.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

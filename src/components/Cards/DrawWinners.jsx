@@ -39,7 +39,7 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
           ) : (
             <div className="row justify-content-center align-content-center h-100">
               {drawWinners.map((winner, index) => (
-                <div className="card col-md-2 m-1">
+                <div className="card col-md-2 m-1" key={index}>
                   <h4 key={index} className="font-italic font-weight-500">
                     <span className="badge bg-info rounded-pill text-white mr-2">
                       {winner.POSITION}
