@@ -1,20 +1,19 @@
-import React from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { useContext, useEffect, useRef } from 'react';
+import { Outlet, useLocation, Navigate } from 'react-router-dom';
 
 import Navbar from '../components/Navbars/Navbar';
 import Footer from '../components/Footers/Footer';
 import routes from '../routes';
-import DrawContext from '../context/DrawContext';
+import DrawProvider from '../contexts/DrawContext';
+import { UserContext } from '../contexts/UserContext';
 
-const Layout = (props) => {
-  const mainContent = React.useRef(null);
+const MainLayout = () => {
+  const mainContent = useRef(null);
   const location = useLocation();
+  const userContext = useContext(UserContext);
+  const isLoggedIn = userContext.isLoggedIn;
 
-  React.useEffect(() => {
-    document.documentElement.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
-    mainContent.current.scrollTop = 0;
-  }, [location]);
+  if (!isLoggedIn) return <Navigate to="/login" />;
 
   const getBrandText = () => {
     for (let i = 0; i < routes.length; i++) {
@@ -30,13 +29,13 @@ const Layout = (props) => {
     <div style={{ height: '100%' }}>
       <main className="main-content h-100" ref={mainContent}>
         <Navbar brandText={getBrandText()} />
-        <DrawContext>
+        <DrawProvider>
           <Outlet />
-        </DrawContext>
+        </DrawProvider>
         <Footer />
       </main>
     </div>
   );
 };
 
-export default Layout;
+export default MainLayout;

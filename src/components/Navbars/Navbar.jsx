@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Navbar,
   NavbarBrand,
@@ -7,9 +7,25 @@ import {
   NavLink,
   Container,
   NavItem,
+  Button,
 } from 'reactstrap';
+import { UserContext } from '../../contexts/UserContext';
 
-function CustomNavbar(props) {
+function CustomNavbar() {
+  const userContext = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    userContext.setIsLoggedIn(false);
+    userContext.setToken(null);
+    userContext.setUser(null);
+
+    navigate('/login');
+  };
+
   return (
     <Navbar
       className="navbar-top py-4 bg-light mb-4"
@@ -40,6 +56,15 @@ function CustomNavbar(props) {
               <i className="ni ni-trophy text-primary mr-2" />
               WINNERS
             </NavLink>
+          </NavItem>
+          <NavItem>
+            <Button
+              className="btn btn-link btn-outline-warning"
+              onClick={handleLogout}
+            >
+              <i className="ni ni-user-run text-danger mr-2" />
+              LOGOUT
+            </Button>
           </NavItem>
         </Nav>
       </Container>

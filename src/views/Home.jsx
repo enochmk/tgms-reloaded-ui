@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import fetchStatistics from '../services/fetchStatistics';
 import Header from '../components/Headers/Header';
 import Fileupload from '../components/Cards/Fileupload';
-import { DrawContext } from '../context/DrawContext';
+import { DrawContext } from '../contexts/DrawContext';
 import { toast } from 'react-toastify';
 
 function Home() {

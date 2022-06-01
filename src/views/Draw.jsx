@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { Container } from 'reactstrap';
 
-import { DrawContext } from '../context/DrawContext';
+import { DrawContext } from '../contexts/DrawContext';
 import DrawForm from '../components/Cards/DrawForm';
 import DrawWinners from '../components/Cards/DrawWinners';
 import Header from '../components/Headers/Header';

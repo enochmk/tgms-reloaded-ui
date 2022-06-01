@@ -16,3 +16,11 @@ body {
     rgba(1, 55, 122, 1) 75%
   );
 }
+
+.bg-airteltigo-danger {
+  background: rgb(220, 53, 69);
+}
+
+.bg-airteltigo-primary {
+  background: rgba(1, 55, 122, 1);
+}

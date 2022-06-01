@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardTitle } from 'reactstrap';
 import { toast } from 'react-toastify';
 import fetchRandomWinners from '../../services/generateRandomWinners';
 import fetchStatistics from '../../services/fetchStatistics';
-import { DrawContext } from '../../context/DrawContext';
+import { DrawContext } from '../../contexts/DrawContext';
 import resetWinners from '../../services/resetWinners';
 
 const SPEED = 100;
