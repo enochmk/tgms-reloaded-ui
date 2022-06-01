@@ -9,7 +9,9 @@ const DrawCard = ({ title, winners }) => {
       <div className="card-body text-center overflow-auto">
         {winners.map((winner, index) => (
           <h4 key={index} className="font-italic font-weight-600">
-            <span class="badge bg-info text-white mr-2">{winner.POSITION}</span>
+            <span className="badge bg-info text-white mr-2">
+              {winner.POSITION}
+            </span>
             0{winner.MSISDN}
           </h4>
         ))}

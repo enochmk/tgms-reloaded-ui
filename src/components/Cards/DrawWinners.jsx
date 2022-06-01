@@ -41,7 +41,7 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
               {drawWinners.map((winner, index) => (
                 <div className="card col-md-2 m-1">
                   <h4 key={index} className="font-italic font-weight-500">
-                    <span class="badge bg-info rounded-pill text-white mr-2">
+                    <span className="badge bg-info rounded-pill text-white mr-2">
                       {winner.POSITION}
                     </span>
                     0{winner.MSISDN}
