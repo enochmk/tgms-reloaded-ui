@@ -5,6 +5,16 @@ import { DrawContext } from '../contexts/DrawContext';
 import DrawForm from '../components/Cards/DrawForm';
 import DrawWinners from '../components/Cards/DrawWinners';
 import Header from '../components/Headers/Header';
+import BackgroundWallpaper from '../assets/img/wallpapers/Draw.png';
+
+const wallpaperStyle = {
+  backgroundImage: 'url(' + BackgroundWallpaper + ')',
+  backgroundPosition: 'center',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+  height: '100%',
+  width: '100%',
+};
 
 function Draw() {
   const drawContext = useContext(DrawContext);
@@ -12,8 +22,8 @@ function Draw() {
   const [drawWinners, setDrawWinners] = useState([]);
 
   return (
-    <>
-      <Header count={drawContext.count} isLoading={drawContext.isLoading} />
+    <div style={{ ...wallpaperStyle, marginTop: '5%' }}>
+      {/* <Header count={drawContext.count} isLoading={drawContext.isLoading} /> */}
       <Container fluid className="justify-content-center">
         <div className="mt-4 p-5 rounded text-center">
           <div className="row justify-content-center">
@@ -30,7 +40,7 @@ function Draw() {
           </div>
         </div>
       </Container>
-    </>
+    </div>
   );
 }
 

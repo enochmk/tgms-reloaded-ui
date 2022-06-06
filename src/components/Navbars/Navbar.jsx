@@ -9,6 +9,7 @@ import {
   NavItem,
   Button,
 } from 'reactstrap';
+
 import { UserContext } from '../../contexts/UserContext';
 
 function CustomNavbar() {
@@ -28,7 +29,7 @@ function CustomNavbar() {
 
   return (
     <Navbar
-      className="navbar-top py-4 bg-light mb-4"
+      className="navbar-top py-4 mb-4 bg-white"
       expand="md"
       id="navbar-main"
     >

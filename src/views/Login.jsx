@@ -11,8 +11,9 @@ import {
   InputGroup,
   Col,
 } from 'reactstrap';
-import userAuthenticationService from '../services/userLogin';
 import { toast } from 'react-toastify';
+
+import userAuthenticationService from '../services/userLogin';
 import { UserContext } from '../contexts/UserContext';
 
 const Login = () => {
@@ -54,7 +55,10 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div
+      className="d-flex row w-100 h-100 justify-content-center"
+      style={{ marginTop: '20%' }}
+    >
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent py-3 text-center">
@@ -107,7 +111,7 @@ const Login = () => {
           </CardBody>
         </Card>
       </Col>
-    </>
+    </div>
   );
 };
 

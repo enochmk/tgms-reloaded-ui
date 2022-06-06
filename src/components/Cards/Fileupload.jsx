@@ -1,17 +1,7 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import {
-  Container,
-  Button,
-  Card,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Row,
-  Col,
-  Alert,
-} from 'reactstrap';
+import { Button, Card, CardBody, Alert } from 'reactstrap';
 
 function Fileupload({ setStatistics, setIsLoading }) {
   const ref = useRef();
@@ -24,9 +14,10 @@ function Fileupload({ setStatistics, setIsLoading }) {
     setSelectedFile(e.target.files[0]);
   };
 
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+  async function sleep(ms) {
+    new Promise((resolve) => setTimeout(resolve, ms));
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -69,28 +60,18 @@ function Fileupload({ setStatistics, setIsLoading }) {
   };
 
   return (
-    <Container fluid className="justify-content-center">
-      <div className="mt-4 p-5 text-white rounded text-center">
+    <div className="container d-flex w-50">
+      <div className="justify-content-center">
         <form onSubmit={handleSubmit}>
-          <Row className="justify-content-center">
-            <Col md={4}>
-              <Card>
-                <CardTitle>
-                  <h2 className="display-4 mt-2">File Upload</h2>
-                </CardTitle>
-                <CardSubtitle>
-                  <p className="lead text-muted">
-                    Upload a file containning list of numbers.
-                  </p>
-                </CardSubtitle>
-                <CardBody>
-                  {message && (
-                    <Alert color={isError ? 'danger' : 'success'}>
-                      {message}
-                    </Alert>
-                  )}
-                  <label className="form-label">Upload a file:</label>
-                  <div className="input-group input-group-outline mb-4">
+          <label className="form-label text-white">Upload a file: </label>
+          <Card>
+            <CardBody>
+              {message && (
+                <Alert color={isError ? 'danger' : 'success'}>{message}</Alert>
+              )}
+              <div className="row">
+                <div className="col-md-9">
+                  <div className="input-group input-group-outline">
                     <input
                       type="file"
                       ref={ref}
@@ -100,14 +81,16 @@ function Fileupload({ setStatistics, setIsLoading }) {
                       disabled={isFileUploading}
                     />
                   </div>
-                  <Button className="btn-block btn-success">Upload</Button>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+                </div>
+                <span className="col-md-3">
+                  <Button className="btn-secondary">Upload</Button>
+                </span>
+              </div>
+            </CardBody>
+          </Card>
         </form>
       </div>
-    </Container>
+    </div>
   );
 }
 

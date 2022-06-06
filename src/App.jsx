@@ -12,7 +12,7 @@ import UserProvider from './contexts/UserContext';
 
 function App() {
   return (
-    <>
+    <div className="h-100vh">
       <UserProvider>
         <Routes>
           <Route element={<PersistLogin />}>
@@ -42,7 +42,7 @@ function App() {
         draggable
         pauseOnHover
       />
-    </>
+    </div>
   );
 }
 

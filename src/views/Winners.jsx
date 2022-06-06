@@ -1,8 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Card, CardBody, CardTitle, Container } from 'reactstrap';
 import { toast } from 'react-toastify';
+
 import fetchWinners from '../services/fetchWinners';
 import DrawCard from '../components/Cards/DrawCard';
+import BackgroundWallpaper from '../assets/img/wallpapers/Winners.png';
+
+const wallpaperStyle = {
+  backgroundImage: 'url(' + BackgroundWallpaper + ')',
+  backgroundPosition: 'center',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+  height: '100%',
+  width: '100%',
+};
 
 function Winners() {
   const [winners, setWinners] = useState({
@@ -30,24 +41,26 @@ function Winners() {
   }, []);
 
   return (
-    <Container fluid className="mt-5 py-6 px-2 h-100 d-flex flex-column">
-      <Card>
-        <CardBody>
-          <CardTitle tag="h1" className="text-muted text-center">
-            Winners
-          </CardTitle>
-          <div className="row flex-nowrap h-100">
-            <DrawCard title="1st" winners={winners.firstRound} />
-            <DrawCard title="2nd" winners={winners.secondRound} />
-            <DrawCard title="3rd" winners={winners.thirdRound} />
-            <DrawCard title="4th-13th" winners={winners.fourthRound} />
-            <DrawCard title="14th-33rd" winners={winners.fifthRound} />
-            <DrawCard title="34th-93rd" winners={winners.sixthRound} />
-            <DrawCard title="94th-363rd" winners={winners.seventhRound} />
-          </div>
-        </CardBody>
-      </Card>
-    </Container>
+    <div style={{ ...wallpaperStyle, marginTop: '8%' }}>
+      <Container fluid className="h-100">
+        <Card className="h-75 mb-5">
+          <CardBody>
+            <CardTitle tag="h1" className="text-muted text-center">
+              Winners
+            </CardTitle>
+            <div className="row flex-nowrap">
+              <DrawCard title="GHS 5,000" winners={winners.firstRound} />
+              <DrawCard title="GHS 2,000" winners={winners.secondRound} />
+              <DrawCard title="GHS 1,000" winners={winners.thirdRound} />
+              <DrawCard title="GHS 500" winners={winners.fourthRound} />
+              <DrawCard title="GHS 300" winners={winners.fifthRound} />
+              <DrawCard title="GHS 200" winners={winners.sixthRound} />
+              <DrawCard title="GHS 100" winners={winners.seventhRound} />
+            </div>
+          </CardBody>
+        </Card>
+      </Container>
+    </div>
   );
 }
 
