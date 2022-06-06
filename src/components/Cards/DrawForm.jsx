@@ -174,7 +174,7 @@ const DrawForm = (props) => {
 
       setSelectDraws(selectOptions);
       stopAnimation();
-      // setDrawWinners([]);
+      setDrawWinners([]);
     } catch (error) {
       toast.error(error.message);
     }

@@ -23,10 +23,10 @@ function Draw() {
 
   return (
     <div style={{ ...wallpaperStyle, marginTop: '5%' }}>
-      {/* <Header count={drawContext.count} isLoading={drawContext.isLoading} /> */}
+      <Header count={drawContext.count} isLoading={drawContext.isLoading} />
       <Container fluid className="justify-content-center">
-        <div className="mt-4 p-5 rounded text-center">
-          <div className="row justify-content-center">
+        <div className="rounded text-center">
+          <div className="row justify-content-center mt-2">
             <div className="col-9">
               <DrawWinners drawWinners={drawWinners} isLoading={isLoading} />
             </div>

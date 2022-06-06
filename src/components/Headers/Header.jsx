@@ -6,7 +6,7 @@ const Header = ({ count, isLoading }) => {
   const { winners, unique, total } = count;
 
   return (
-    <div className="header bg-gradient-airteltigo pt-6" style={{}}>
+    <div className="header bg-gradient-airteltigo py-1">
       <Container fluid className="header-body">
         <div className="mt-4 p-4 text-white rounded text-center">
           <h2 className="text-white display-4 font-bold">Statistics</h2>

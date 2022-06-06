@@ -60,8 +60,8 @@ function Fileupload({ setStatistics, setIsLoading }) {
   };
 
   return (
-    <div className="container d-flex w-50">
-      <div className="justify-content-center">
+    <div className="container d-flex w-50 h-100 mt-5 flex-column">
+      <div className="justify-content-center align-content-center">
         <form onSubmit={handleSubmit}>
           <label className="form-label text-white">Upload a file: </label>
           <Card>

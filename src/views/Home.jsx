@@ -29,8 +29,8 @@ function Home() {
 
   return (
     <div style={{ ...wallpaperStyle }}>
-      <div className="container-fluid " style={{ paddingTop: '15%' }}>
-        {/* <Header count={drawContext.count} isLoading={drawContext.isLoading} /> */}
+      <div style={{ marginTop: '5%' }}>
+        <Header count={drawContext.count} isLoading={drawContext.isLoading} />
         <Fileupload
           setIsLoading={drawContext.setIsLoading}
           setStatistics={drawContext.setStatistics}

@@ -35,7 +35,7 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
         </div>
         <div
           className="card-body text-center d-flex-column  overflow-auto"
-          style={{ height: '680px' }}
+          style={{ height: '480px' }}
         >
           {isLoading ? (
             <span className="spinner-border spinner-border-lg text-success"></span>
