@@ -27,19 +27,22 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
   }, [drawWinners]);
 
   return (
-    <div ref={ref} className="h-100">
+    <div ref={ref}>
       {celebrate && <Confetti height={height} width={width} />}
-      <div className="card h-100  mr-1">
+      <div className="card h-100">
         <div className="card-header text-center display-4 font-weight-bold">
           Draw Result
         </div>
-        <div className="card-body text-center d-flex-column flex-grow-1">
+        <div
+          className="card-body text-center d-flex-column  overflow-auto"
+          style={{ height: '680px' }}
+        >
           {isLoading ? (
             <span className="spinner-border spinner-border-lg text-success"></span>
           ) : (
-            <div className="row justify-content-center align-content-center h-100">
+            <div className="row justify-content-center align-content-center">
               {drawWinners.map((winner, index) => (
-                <section key={index} className="w-100 col-md-2">
+                <sectio key={index} className="w-100 col-md-2">
                   <div
                     className="card m-1 btn btn-white"
                     data-toggle="modal"
@@ -66,7 +69,7 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
                           </h4>
                           <button
                             type="button"
-                            className="close"
+                            className="close text-white"
                             data-dismiss="modal"
                           >
                             &times;
@@ -88,7 +91,7 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
                       </div>
                     </div>
                   </div>
-                </section>
+                </sectio>
               ))}
             </div>
           )}
