@@ -2,7 +2,7 @@ import React from 'react';
 
 const DrawCard = ({ title, winners }) => {
   return (
-    <div className="card w-100 mr-1 h-100" style={{ maxHeight: '720px' }}>
+    <div className="card w-100 mr-1 h-100" style={{ maxHeight: '100%' }}>
       <div className="card-header text-center display-4 font-weight-bold">
         {title}
       </div>
