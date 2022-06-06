@@ -85,7 +85,6 @@ const DrawForm = (props) => {
       const index = Math.floor(Math.random() * eligibleMsisdns.length);
       const randomNumber = eligibleMsisdns[index];
       setSpinningNumber(`0${randomNumber}`);
-      console.log(randomNumber);
     }, SPEED);
 
     setTimer(interval);

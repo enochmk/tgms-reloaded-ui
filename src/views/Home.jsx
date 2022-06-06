@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import fetchStatistics from '../services/fetchStatistics';
 import Header from '../components/Headers/Header';
-import Fileupload from '../components/Cards/Fileupload';
+import Fileupload from '../components/Cards/UploadCard';
 import { DrawContext } from '../contexts/DrawContext';
 import BackgroundWallpaper from '../assets/img/wallpapers/Home.png';
 

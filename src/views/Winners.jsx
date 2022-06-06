@@ -3,7 +3,7 @@ import { Card, CardBody, CardTitle, Container } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 import fetchWinners from '../services/fetchWinners';
-import DrawCard from '../components/Cards/DrawCard';
+import DrawCard from '../components/Cards/WinnerCard';
 import BackgroundWallpaper from '../assets/img/wallpapers/Winners.png';
 
 const wallpaperStyle = {
@@ -45,10 +45,10 @@ function Winners() {
       <Container fluid className="h-100">
         <Card className="h-75 mb-5">
           <CardBody>
-            <CardTitle tag="h1" className="text-muted text-center">
-              Winners
+            <CardTitle tag="h1" className="text-muted text-center display-2">
+              WINNERS
             </CardTitle>
-            <div className="row flex-nowrap">
+            <div className="row flex-nowrap" style={{ height: '500px' }}>
               <DrawCard title="GHS 5,000" winners={winners.firstRound} />
               <DrawCard title="GHS 2,000" winners={winners.secondRound} />
               <DrawCard title="GHS 1,000" winners={winners.thirdRound} />

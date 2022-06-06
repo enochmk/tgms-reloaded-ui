@@ -3,7 +3,7 @@ import { Container } from 'reactstrap';
 
 import { DrawContext } from '../contexts/DrawContext';
 import DrawForm from '../components/Cards/DrawForm';
-import DrawWinners from '../components/Cards/DrawWinners';
+import DrawWinners from '../components/Cards/DisplayWinners';
 import Header from '../components/Headers/Header';
 import BackgroundWallpaper from '../assets/img/wallpapers/Draw.png';
 
