@@ -1,14 +1,13 @@
 import axios from 'axios';
 
+const HOST = process.env.REACT_APP_SERVER;
+
 const fetchRandomWinners = async (round) => {
-  const response = await axios.get(
-    `https://10.81.9.68:9000/api/tgms2/Draw?number=${round}`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
+  const response = await axios.get(`${HOST}/api/tgms2/Draw?number=${round}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
-  );
+  });
 
   return response.data;
 };

@@ -35,7 +35,7 @@ function Upload() {
     try {
       const config = {
         method: 'post',
-        url: 'https://10.81.9.68:9000/api/tgms2/loader',
+        url: '${HOST}/api/tgms2/loader',
         headers: { 'Content-Type': 'multipart/form-data' },
         data: data,
       };

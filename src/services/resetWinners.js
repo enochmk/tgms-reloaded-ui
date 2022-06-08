@@ -1,14 +1,13 @@
 import axios from 'axios';
 
+const HOST = process.env.REACT_APP_SERVER;
+
 const fetchStatistics = async () => {
-  const response = await axios.delete(
-    `https://10.81.9.68:9000/api/tgms2/winners`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
+  const response = await axios.delete(`${HOST}/api/tgms2/winners`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
-  );
+  });
 
   return response.data;
 };
