@@ -3,6 +3,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Button, Card, CardBody, Alert } from 'reactstrap';
 
+const HOST = process.env.REACT_APP_SERVER;
+
 function Fileupload({ setStatistics, setIsLoading }) {
   const ref = useRef();
   const [message, setMessage] = useState(null);
@@ -33,7 +35,7 @@ function Fileupload({ setStatistics, setIsLoading }) {
     try {
       const config = {
         method: 'post',
-        url: '${HOST}/api/tgms2/loader',
+        url: `${HOST}/api/tgms2/loader`,
         headers: { 'Content-Type': 'multipart/form-data' },
         data: data,
       };
