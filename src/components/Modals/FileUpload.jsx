@@ -11,6 +11,8 @@ import {
   Container,
 } from 'reactstrap';
 
+const HOST = process.env.REACT_APP_SERVER;
+
 function Upload() {
   const [modal, setModal] = useState(false);
   const ref = useRef();
@@ -35,7 +37,7 @@ function Upload() {
     try {
       const config = {
         method: 'post',
-        url: '${HOST}/api/tgms2/loader',
+        url: `${HOST}/api/tgms2/loader`,
         headers: { 'Content-Type': 'multipart/form-data' },
         data: data,
       };
