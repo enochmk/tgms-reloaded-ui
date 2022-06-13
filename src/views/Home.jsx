@@ -31,10 +31,10 @@ function Home() {
     <div style={{ ...wallpaperStyle }}>
       <div style={{ marginTop: '5%' }}>
         <Header count={drawContext.count} isLoading={drawContext.isLoading} />
-        <Fileupload
+        {/* <Fileupload
           setIsLoading={drawContext.setIsLoading}
           setStatistics={drawContext.setStatistics}
-        />
+        /> */}
       </div>
     </div>
   );
