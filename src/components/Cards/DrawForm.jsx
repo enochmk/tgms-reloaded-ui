@@ -8,7 +8,8 @@ import fetchStatistics from '../../services/fetchStatistics';
 import { DrawContext } from '../../contexts/DrawContext';
 import resetWinners from '../../services/resetWinners';
 
-const SPEED = 100;
+const SPEED = 50;
+let WAIT_TIMER = 15_000;
 const selectOptions = [
   { name: 'First Draw', value: '1', disabled: false },
   { name: 'Second Draw', value: '2', disabled: false },
@@ -96,13 +97,7 @@ const DrawForm = (props) => {
   };
 
   const animateWinners = async (drawResultArray) => {
-    let waitTimer = 3_500;
-
-    if (drawResultArray.length > 30) {
-      waitTimer = (drawResultArray.length / 30) * 1_000;
-    }
-
-    await sleep(waitTimer);
+    await sleep(WAIT_TIMER);
 
     const lastItem = drawResultArray[drawResultArray.length - 1];
     const arrayCopy = [...drawWinners, ...drawResultArray];

@@ -14,7 +14,7 @@ const Header = ({ count, isLoading }) => {
             <Col lg="6" xl="4">
               <HeaderCard
                 isLoading={isLoading}
-                title="Total Dataset"
+                title="Total Tickets"
                 color="danger"
                 value={total}
                 icon="fa-chart-bar"

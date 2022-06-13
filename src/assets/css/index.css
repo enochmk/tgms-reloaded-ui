@@ -8,17 +8,21 @@ body {
   overflow-y: auto;
 }
 
+.opacity {
+  opacity: 0.5;
+}
+
 .bg-gradient-airteltigo {
-  background: rgb(220, 53, 69);
+  background: rgba(220, 53, 69, 1);
   background: linear-gradient(
     90deg,
-    rgba(220, 53, 69, 1) 0%,
-    rgba(1, 55, 122, 1) 75%
+    rgba(220, 53, 69, 0.4) 0%,
+    rgba(1, 55, 122, 0.4) 75%
   );
 }
 
 .bg-airteltigo-danger {
-  background: rgb(220, 53, 69);
+  background: rgba(220, 53, 69, 1);
 }
 
 .bg-airteltigo-primary {
