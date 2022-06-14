@@ -16,7 +16,7 @@ const Header = ({ count, isLoading }) => {
                 isLoading={isLoading}
                 title="Total Tickets"
                 color="danger"
-                value={total}
+                value={total.toLocaleString()}
                 icon="fa-chart-bar"
               />
             </Col>
@@ -25,7 +25,7 @@ const Header = ({ count, isLoading }) => {
                 isLoading={isLoading}
                 title="Unique Subscribers"
                 color="warning"
-                value={unique}
+                value={unique.toLocaleString()}
                 icon="fa-chart-pie"
               />
             </Col>
@@ -34,7 +34,7 @@ const Header = ({ count, isLoading }) => {
                 isLoading={isLoading}
                 title="Winners"
                 color="yellow"
-                value={winners}
+                value={winners.toLocaleString()}
                 icon="fa-users"
               />
             </Col>
