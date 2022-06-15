@@ -4,7 +4,7 @@ const HOST = process.env.REACT_APP_SERVER;
 
 const fetchRandomWinners = async (round) => {
   const response = await axios.get(`${HOST}/api/tgms2/Draw?number=${round}`, {
-    timeout: 300000,
+    timeout: 600000,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
