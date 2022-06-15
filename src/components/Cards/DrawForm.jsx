@@ -97,7 +97,9 @@ const DrawForm = (props) => {
   };
 
   const animateWinners = async (drawResultArray) => {
-    await sleep(WAIT_TIMER);
+    if (numberOfWinnersInput <= 4) {
+      await sleep(WAIT_TIMER);
+    }
 
     const lastItem = drawResultArray[drawResultArray.length - 1];
     const arrayCopy = [...drawWinners, ...drawResultArray];
