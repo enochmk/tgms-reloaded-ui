@@ -20,8 +20,6 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
     if (drawWinners.length) {
       setCelebrate(true);
 
-      console.log(drawWinners);
-
       setTimeout(() => {
         setCelebrate(false);
       }, TIMEOUT_DURATION);

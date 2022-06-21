@@ -97,6 +97,18 @@ const DrawForm = (props) => {
     clearInterval(timer);
   };
 
+  const animateWinners = async (drawResultArray) => {
+    await sleep(WAIT_TIMER);
+
+    const lastItem = drawResultArray[drawResultArray.length - 1];
+    // const arrayCopy = [...drawWinners, ...drawResultArray];
+    const arrayCopy = [...drawResultArray];
+    const orderedData = _.sortBy(arrayCopy, 'POSITION');
+
+    setDrawWinners(orderedData);
+    setSpinningNumber(`0${lastItem.MSISDN}`);
+  };
+
   const updateStatistics = async () => {
     try {
       const data = await fetchStatistics();
@@ -117,65 +129,91 @@ const DrawForm = (props) => {
     setSelectDraws(newSelectDraws);
   };
 
-  const drawHelper = async (startPosition, endPosition, waitTimer = 100) => {
-    const drawWinners = [];
-
-    for (let i = startPosition; i <= endPosition; i++) {
-      await sleep(waitTimer);
-
-      const winners = await fetchDrawWithPosition(i);
-      const lastItem = winners[winners.length - 1];
-      drawWinners.push(lastItem);
-
-      const arrayCopy = [...drawWinners];
-      const orderedData = _.sortBy(arrayCopy, 'POSITION');
-      const reservedOrderData = _.reverse(orderedData);
-
-      setSpinningNumber(`0${lastItem.MSISDN}`);
-      setDrawWinners(reservedOrderData);
-      setNumber(`0${lastItem.MSISDN}`);
-    }
-
+  const drawHelper = async (position) => {
+    const randomNumbers = await fetchDrawWithPosition(position);
+    const lastItem = randomNumbers[randomNumbers.length - 1];
+    await animateWinners(randomNumbers);
     await updateStatistics();
+    setNumber(`0${lastItem.MSISDN}`);
   };
 
   const handleDrawPosition = async (round) => {
-    let startPosition = 1;
-    let endPosition = 1;
-    let waitTimer = 100;
-
     if (round === '1' || round === '2' || round === '3') {
-      startPosition = round;
-      endPosition = round;
-      waitTimer = 2000;
+      const position = round;
+      await drawHelper(position);
     }
 
     if (round === '4') {
-      startPosition = 4;
-      // endPosition = 13;
-      endPosition = 7;
-      waitTimer = 100;
+      const startPosition = 4;
+      const endPosition = 13;
+
+      const results = [];
+
+      for (let i = startPosition; i <= endPosition; i++) {
+        const randomNumbers = await fetchDrawWithPosition(i);
+        const lastItem = randomNumbers[randomNumbers.length - 1];
+        results.push(lastItem);
+        await animateWinners(results);
+        await updateStatistics();
+        setNumber(`0${lastItem.MSISDN}`);
+
+        await sleep(100);
+      }
     }
 
     if (round === '5') {
-      startPosition = 14;
-      endPosition = 33;
-      waitTimer = 0;
+      const startPosition = 14;
+      const endPosition = 33;
+
+      const results = [];
+
+      for (let i = startPosition; i <= endPosition; i++) {
+        const randomNumbers = await fetchDrawWithPosition(i);
+        const lastItem = randomNumbers[randomNumbers.length - 1];
+        results.push(lastItem);
+        await animateWinners(results);
+        await updateStatistics();
+        setNumber(`0${lastItem.MSISDN}`);
+
+        await sleep(100);
+      }
     }
 
     if (round === '6') {
-      startPosition = 34;
-      endPosition = 93;
-      waitTimer = 0;
+      const startPosition = 34;
+      const endPosition = 93;
+
+      const results = [];
+
+      for (let i = startPosition; i <= endPosition; i++) {
+        const randomNumbers = await fetchDrawWithPosition(i);
+        const lastItem = randomNumbers[randomNumbers.length - 1];
+        results.push(lastItem);
+        await animateWinners(results);
+        await updateStatistics();
+        setNumber(`0${lastItem.MSISDN}`);
+
+        await sleep(700);
+      }
     }
 
     if (round === '7') {
-      startPosition = 94;
-      endPosition = 363;
-      waitTimer = 0;
-    }
+      const startPosition = 94;
+      const endPosition = 363;
 
-    await drawHelper(startPosition, endPosition, waitTimer);
+      const results = [];
+
+      for (let i = startPosition; i <= endPosition; i++) {
+        const randomNumbers = await fetchDrawWithPosition(i);
+        const lastItem = randomNumbers[randomNumbers.length - 1];
+        results.push(lastItem);
+        await animateWinners(results);
+        await updateStatistics();
+        setNumber(`0${lastItem.MSISDN}`);
+
+        await sleep(700);
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -183,12 +221,40 @@ const DrawForm = (props) => {
 
     if (!numberOfWinnersInput) return;
 
-    setSpinningNumber('0000000000');
-    setDrawWinners([]);
     setIsAnimating(true);
+    setNumber('0000000000');
 
     try {
       await handleDrawPosition(numberOfWinnersInput);
+      disableSelectOption(numberOfWinnersInput);
+    } catch (error) {
+      setSpinningNumber('0000000000');
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error.message);
+      }
+    } finally {
+      setNumberOfWinners('');
+      setIsLoading(false);
+      setIsAnimating(false);
+    }
+  };
+
+  const handleSubmitBack = async (e) => {
+    e.preventDefault();
+
+    if (!numberOfWinnersInput) return;
+
+    setIsAnimating(true);
+    setNumber('0000000000');
+
+    try {
+      const randomNumbers = await fetchDrawWithPosition(numberOfWinnersInput);
+      const lastItem = randomNumbers[randomNumbers.length - 1];
+      await animateWinners(randomNumbers);
+      setNumber(`0${lastItem.MSISDN}`);
+      await updateStatistics();
       disableSelectOption(numberOfWinnersInput);
     } catch (error) {
       setSpinningNumber('0000000000');
