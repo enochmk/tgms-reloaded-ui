@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Button, Card, CardBody, CardTitle } from 'reactstrap';
 import { toast } from 'react-toastify';
 
-import fetchRandomWinners from '../../services/generateRandomWinners';
+import fetchDrawWithPosition from '../../services/drawWithPosition';
 import fetchStatistics from '../../services/fetchStatistics';
 import { DrawContext } from '../../contexts/DrawContext';
 import resetWinners from '../../services/resetWinners';
@@ -37,12 +37,12 @@ const DrawForm = (props) => {
 
   useEffect(() => {
     if (isAnimating) {
-      setIsLoading(true);
+      // setIsLoading(true);
       startAnimation();
     }
 
     if (!isAnimating) {
-      setIsLoading(false);
+      // setIsLoading(false);
       stopAnimation();
     }
 
@@ -97,18 +97,6 @@ const DrawForm = (props) => {
     clearInterval(timer);
   };
 
-  const animateWinners = async (drawResultArray) => {
-    await sleep(WAIT_TIMER);
-
-    const lastItem = drawResultArray[drawResultArray.length - 1];
-    // const arrayCopy = [...drawWinners, ...drawResultArray];
-    const arrayCopy = [...drawResultArray];
-    const orderedData = _.sortBy(arrayCopy, 'POSITION');
-
-    setDrawWinners(orderedData);
-    setSpinningNumber(`0${lastItem.MSISDN}`);
-  };
-
   const updateStatistics = async () => {
     try {
       const data = await fetchStatistics();
@@ -129,20 +117,77 @@ const DrawForm = (props) => {
     setSelectDraws(newSelectDraws);
   };
 
+  const drawHelper = async (startPosition, endPosition, waitTimer = 100) => {
+    const drawWinners = [];
+
+    for (let i = startPosition; i <= endPosition; i++) {
+      await sleep(waitTimer);
+
+      const winners = await fetchDrawWithPosition(i);
+      const lastItem = winners[winners.length - 1];
+      drawWinners.push(lastItem);
+
+      const arrayCopy = [...winners];
+      const orderedData = _.sortBy(arrayCopy, 'POSITION');
+
+      await updateStatistics();
+
+      setSpinningNumber(`0${lastItem.MSISDN}`);
+      setDrawWinners(orderedData);
+      setNumber(`0${lastItem.MSISDN}`);
+    }
+  };
+
+  const handleDrawPosition = async (round) => {
+    let startPosition = 1;
+    let endPosition = 1;
+    let waitTimer = 100;
+
+    if (round === '1' || round === '2' || round === '3') {
+      startPosition = round;
+      endPosition = round;
+      waitTimer = 2000;
+    }
+
+    if (round === '4') {
+      startPosition = 4;
+      // endPosition = 13;
+      endPosition = 7;
+      waitTimer = 100;
+    }
+
+    if (round === '5') {
+      startPosition = 14;
+      endPosition = 33;
+      waitTimer = 0;
+    }
+
+    if (round === '6') {
+      startPosition = 34;
+      endPosition = 93;
+      waitTimer = 0;
+    }
+
+    if (round === '7') {
+      startPosition = 94;
+      endPosition = 363;
+      waitTimer = 0;
+    }
+
+    await drawHelper(startPosition, endPosition, waitTimer);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!numberOfWinnersInput) return;
 
+    setSpinningNumber('0000000000');
+    setDrawWinners([]);
     setIsAnimating(true);
-    setNumber('0000000000');
 
     try {
-      const randomNumbers = await fetchRandomWinners(numberOfWinnersInput);
-      const lastItem = randomNumbers[randomNumbers.length - 1];
-      await animateWinners(randomNumbers);
-      setNumber(`0${lastItem.MSISDN}`);
-      await updateStatistics();
+      await handleDrawPosition(numberOfWinnersInput);
       disableSelectOption(numberOfWinnersInput);
     } catch (error) {
       setSpinningNumber('0000000000');
