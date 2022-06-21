@@ -20,6 +20,8 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
     if (drawWinners.length) {
       setCelebrate(true);
 
+      console.log(drawWinners);
+
       setTimeout(() => {
         setCelebrate(false);
       }, TIMEOUT_DURATION);
@@ -30,11 +32,11 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
     <div ref={ref}>
       {celebrate && <Confetti height={height} width={width} />}
       <div className="card h-100">
-        <div className="card-header text-center display-4 font-weight-bold">
+        <div className="card-header text-center display-4 font-weight-bold text-primary">
           Draw Result
         </div>
         <div
-          className="card-body text-center d-flex-column  overflow-auto"
+          className="card-body text-center d-flex-column overflow-auto"
           style={{ height: '480px' }}
         >
           {isLoading ? (
@@ -42,18 +44,21 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
           ) : (
             <div className="row justify-content-center align-content-center">
               {drawWinners.map((winner, index) => (
-                <sectio key={index} className="w-100 col-md-2">
+                <section key={index} className="w-25">
                   <div
                     className="card m-1 btn btn-white"
                     data-toggle="modal"
                     data-target={`#winner-${winner.MSISDN}`}
                   >
-                    <h4 key={index} className="font-italic font-weight-500">
-                      <span className="badge bg-info rounded-pill text-white mr-2">
+                    <h1
+                      key={index}
+                      className="font-italic font-weight-700 text-primary"
+                    >
+                      <span className="badge bg-danger rounded-pill text-white text-lg align-content-center justify-content-center align-items-center my-2 mr-2">
                         {winner.POSITION}
                       </span>
                       0{winner.MSISDN}
-                    </h4>
+                    </h1>
                   </div>
 
                   <div
@@ -64,9 +69,9 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
                     <div className="modal-dialog">
                       <div className="modal-content">
                         <div className="modal-header d-flex justify-content-center bg-airteltigo-danger">
-                          <h4 className="modal-title text-white ">
+                          <h2 className="modal-title text-white text-lg ">
                             POSITION: {winner.POSITION}
-                          </h4>
+                          </h2>
                           <button
                             type="button"
                             className="close text-white"
@@ -91,7 +96,7 @@ const DrawWinners = ({ drawWinners, isLoading }) => {
                       </div>
                     </div>
                   </div>
-                </sectio>
+                </section>
               ))}
             </div>
           )}

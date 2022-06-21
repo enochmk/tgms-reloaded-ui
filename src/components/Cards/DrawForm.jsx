@@ -9,7 +9,8 @@ import { DrawContext } from '../../contexts/DrawContext';
 import resetWinners from '../../services/resetWinners';
 
 const SPEED = 50;
-let WAIT_TIMER = 15_000;
+let WAIT_TIMER = 0;
+// let WAIT_TIMER = 15_000;
 const selectOptions = [
   { name: 'First Draw', value: '1', disabled: false },
   { name: 'Second Draw', value: '2', disabled: false },
@@ -100,7 +101,8 @@ const DrawForm = (props) => {
     await sleep(WAIT_TIMER);
 
     const lastItem = drawResultArray[drawResultArray.length - 1];
-    const arrayCopy = [...drawWinners, ...drawResultArray];
+    // const arrayCopy = [...drawWinners, ...drawResultArray];
+    const arrayCopy = [...drawResultArray];
     const orderedData = _.sortBy(arrayCopy, 'POSITION');
 
     setDrawWinners(orderedData);
@@ -133,7 +135,6 @@ const DrawForm = (props) => {
     if (!numberOfWinnersInput) return;
 
     setIsAnimating(true);
-    // setDrawWinners([]);
     setNumber('0000000000');
 
     try {
@@ -145,8 +146,6 @@ const DrawForm = (props) => {
       disableSelectOption(numberOfWinnersInput);
     } catch (error) {
       setSpinningNumber('0000000000');
-      // setDrawWinners([]);
-
       if (error.response) {
         toast.error(error.response.data.message);
       } else {
