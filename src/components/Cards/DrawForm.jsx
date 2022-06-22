@@ -152,8 +152,8 @@ const DrawForm = (props) => {
 
     if (round === '4') {
       startPosition = 4;
-      // endPosition = 13;
-      endPosition = 7;
+      endPosition = 13;
+      // endPosition = 7;
       waitTimer = 100;
     }
 
