@@ -9,7 +9,9 @@ const Header = ({ count, isLoading }) => {
     <div className="header bg-gradient-airteltigo py-1">
       <Container fluid className="header-body">
         <div className="mt-4 p-4 text-white rounded text-center">
-          <h2 className="text-white display-4 font-bold">Statistics</h2>
+          <h2 className="text-white display-4 font-bold">
+            Weekly Draw Statistics
+          </h2>
           <Row className="mb-5">
             <Col lg="6" xl="4">
               <HeaderCard
