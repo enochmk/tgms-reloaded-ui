@@ -38,7 +38,7 @@ function Fileupload({ setStatistics, setIsLoading }) {
         url: `${HOST}/api/tgms2/loader`,
         headers: { 'Content-Type': 'multipart/form-data' },
         data: data,
-        timeout: 300000,
+        timeout: 60 * 60 * 1_000, // 1 hour
       };
 
       const response = await axios(config);

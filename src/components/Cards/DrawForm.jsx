@@ -8,7 +8,7 @@ import fetchStatistics from '../../services/fetchStatistics';
 import { DrawContext } from '../../contexts/DrawContext';
 import resetWinners from '../../services/resetWinners';
 
-const SPEED = 50;
+const SPEED = 172_000;
 // let WAIT_TIMER = 0;
 // let WAIT_TIMER = 15_000;
 
@@ -16,10 +16,10 @@ const selectOptions = [
   { name: 'First Draw', value: '1', disabled: false },
   { name: 'Second Draw', value: '2', disabled: false },
   { name: 'Third Draw', value: '3', disabled: false },
-  { name: 'Fourth Draw', value: '4', disabled: false },
-  { name: 'Fifth Draw', value: '5', disabled: false },
-  { name: 'Sixth Draw', value: '6', disabled: false },
-  { name: 'Seventh Draw', value: '7', disabled: false },
+  // { name: 'Fourth Draw', value: '4', disabled: false },
+  // { name: 'Fifth Draw', value: '5', disabled: false },
+  // { name: 'Sixth Draw', value: '6', disabled: false },
+  // { name: 'Seventh Draw', value: '7', disabled: false },
 ];
 
 const DrawForm = (props) => {

@@ -10,7 +10,7 @@ const Header = ({ count, isLoading }) => {
       <Container fluid className="header-body">
         <div className="mt-4 p-4 text-white rounded text-center">
           <h2 className="text-white display-4 font-bold">
-            Weekly Draw Statistics
+            Grand Draw Statistics
           </h2>
           <Row className="mb-5">
             <Col lg="6" xl="4">

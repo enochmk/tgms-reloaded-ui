@@ -28,13 +28,16 @@ function Home() {
   }, []);
 
   return (
-    <div style={{ ...wallpaperStyle }}>
-      <div style={{ marginTop: '5%' }}>
+    <div style={{ ...wallpaperStyle }} className="flex">
+      <div
+        style={{ marginTop: '5%' }}
+        className="justify-content-center align-content-center"
+      >
         <Header count={drawContext.count} isLoading={drawContext.isLoading} />
-        <Fileupload
+        {/* <Fileupload
           setIsLoading={drawContext.setIsLoading}
           setStatistics={drawContext.setStatistics}
-        />
+        /> */}
       </div>
     </div>
   );
